@@ -19,9 +19,6 @@ input = sys.stdin.readline
 
 T = int(input())
 
-A = []
-
-
 for _ in range(T):
     N = int(input())
     solve(N)
