@@ -1,0 +1,18 @@
+-- 코드를 작성해주세요
+
+-- 1. ECOLI_DATA (테이블) : 대장균들의 정보
+-- ID (대장균 개체의 ID), PARENT_ID (부모 개체의 ID), SIZE_OF_COLONY (개체의 크기)
+-- , DIFFERENTIATION_DATE (분화되어 나온 날짜), GENOTYPE (개체의 형질)
+# 최초의 대장균 개체의 PARENT_ID는 NULL 값
+
+-- 문제
+# 부모의 형질을 모두 보유한 대장균의 ID, GENOTYPE, PARENT_GENOTYPE을 출력
+# ID에 대해 오름차순 정렬
+
+SELECT C.ID,C.GENOTYPE,P.GENOTYPE AS PARENT_GENOTYPE
+FROM ECOLI_DATA P
+LEFT JOIN ECOLI_DATA C
+ON P.ID = C.PARENT_ID
+WHERE (C.GENOTYPE & P.GENOTYPE) = P.GENOTYPE
+ORDER BY C.ID ASC
+;
