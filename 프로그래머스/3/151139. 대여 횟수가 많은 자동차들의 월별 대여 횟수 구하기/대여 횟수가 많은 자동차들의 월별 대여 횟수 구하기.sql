@@ -1,0 +1,24 @@
+-- 코드를 입력하세요
+-- 1. CAR_RENTAL_COMPANY_RENTAL_HISTORY (테이블) : 자동차 대여 기록 정보
+-- HISTORY_ID (대여 기록 ID), CAR_ID (자동차 ID), START_DATE (대여 시작일), END_DATE (대여 종료일)
+
+-- 문제
+# START_DATE를 기준으로 2022-08 ~ 2022-10까지 총 대여 횟수가 5회 이상인 자동차들에 대해 해당 기간 동안의 월별 CAR_ID별 대여 횟수 (RECORDS) 리스트 출력
+# 월을 기준으로 오름차순 정렬
+# 월이 같다면 CAR_ID 기준으로 내림차순 정렬
+# 특정 월의 총 대여 횟수가 0인 경우 결과에서 제외
+
+
+SELECT MONTH(START_DATE) AS MONTH, CAR_ID, COUNT(CAR_ID) AS RECORDS
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+WHERE START_DATE BETWEEN '2022-08-01' AND '2022-10-31'
+AND CAR_ID IN(
+    SELECT CAR_ID
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE START_DATE BETWEEN '2022-08-01' AND '2022-10-31'
+    GROUP BY CAR_ID
+    HAVING COUNT(*) >= 5
+    )
+GROUP BY CAR_ID, MONTH(START_DATE)
+ORDER BY MONTH ASC, CAR_ID DESC
+;
