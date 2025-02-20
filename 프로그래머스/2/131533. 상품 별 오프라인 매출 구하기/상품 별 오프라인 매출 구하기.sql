@@ -1,0 +1,23 @@
+-- 코드를 입력하세요
+-- 1. PRODUCT (테이블)
+-- PRODUCT_ID (상품 ID), PRODUCT_CODE (상품코드), PRICE (판매가)
+# 상품 별로 중복되지 않는 8자리 PRODUCT_CODE
+# 앞 2자리는 카테고리 코드를 의미
+
+-- 2. OFFLINE_SALE (테이블)
+-- OFFLINE_SALE_ID (오프라인 상품 판매 ID), PRODUCT_ID (상품 ID), SALES_AMOUNT (판매량)
+-- , SALES_DATE (판매일)
+# 동일한 SALES_DATE, PRODUCT_ID에 대해서는 하나의 판매 데이터만 존재
+
+-- 문제
+# PRODUCT와 OFFLINE_SALE에서 PRODUCT_CODE 별 매출액 (PRICE * SALES_AMOUNT) 합계를 출력
+# 매출액을 기준으로 내림차순 정렬
+# 매출액이 같다면 PRODUCT_CODE를 기준으로 오름차순 정렬
+
+SELECT PRODUCT_CODE, SUM(PRICE * SALES_AMOUNT) AS SALES
+FROM PRODUCT P
+LEFT JOIN OFFLINE_SALE O
+ON P.PRODUCT_ID = O.PRODUCT_ID
+GROUP BY PRODUCT_CODE
+ORDER BY SALES DESC, PRODUCT_CODE ASC
+;
