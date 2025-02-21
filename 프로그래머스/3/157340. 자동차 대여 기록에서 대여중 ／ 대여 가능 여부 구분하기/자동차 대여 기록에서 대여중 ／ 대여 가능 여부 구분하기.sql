@@ -1,0 +1,33 @@
+-- 코드를 입력하세요
+-- 1. CAR_RENTAL_COMPANY_RENTAL_HISTORY (테이블) : 자동차 대여 기록 정보
+-- HISTORY_ID (대여 기록 ID), CAR_ID (자동차 ID), START_DATE (대여 시작일), END_DATE (대여 종료일)
+
+-- 문제
+# 2022-10-16에 대여중인 자동차는 '대여중', 아닌 차는 '대여 가능'이라고 표시하는 컬럼 (AVAILABILITY)을 추가하여 CAR_ID와 AVAILABILITY 리스트를 출력
+# 2022-10-16이 반납 날짜인 경우도 '대여중'으로 표시
+# CAR_ID를 기준으로 내림차순 정렬
+
+# SELECT *, 
+#     CASE
+#         WHEN START_DATE <= '2022-10-16' AND END_DATE >= '2022-10-16' THEN '대여중'
+#         ELSE '대여 가능'
+#     END AS AVAILABILITY
+# FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+# GROUP BY CAR_ID
+# ORDER BY CAR_ID DESC
+# ;
+
+SELECT DISTINCT(A.CAR_ID),
+    CASE
+        WHEN B.CAR_ID IS NOT NULL THEN '대여중'
+        ELSE '대여 가능'
+    END AS AVAILABILITY
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY A
+LEFT JOIN (
+    SELECT CAR_ID
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE START_DATE <= '2022-10-16' AND END_DATE >= '2022-10-16'
+    ) B
+ON A.CAR_ID = B.CAR_ID 
+ORDER BY A.CAR_ID DESC
+;
