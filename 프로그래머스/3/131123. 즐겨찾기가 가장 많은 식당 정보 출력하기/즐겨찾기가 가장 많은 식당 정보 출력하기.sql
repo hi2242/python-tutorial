@@ -1,0 +1,18 @@
+-- 코드를 입력하세요
+-- 1. REST_INFO (테이블) : 식당 정보
+-- REST_ID (식당 ID), REST_NAME (식당 이름), FOOD_TYPE (음식 종류), VIEWS (조회수)
+-- , FAVORITES (즐겨찾기수), PARKING_LOT (주차장 유무), ADDRESS (주소), TEL (전화번호)
+
+-- 문제
+# FOOD_TYPE 별로 FAVORITES가 가장 많은 식당의 FOOD_TYPE, REST_ID, FAVORITES를 출력
+# FOOD_TYPE 기준으로 내림차순 정렬
+
+SELECT FOOD_TYPE, REST_ID, REST_NAME, FAVORITES
+FROM REST_INFO
+WHERE (FOOD_TYPE, FAVORITES) IN (
+    SELECT FOOD_TYPE, MAX(FAVORITES)
+    FROM REST_INFO
+    GROUP BY FOOD_TYPE
+    )
+ORDER BY FOOD_TYPE DESC
+;
